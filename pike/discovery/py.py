@@ -21,7 +21,7 @@ def is_child_of_module(obj, parent):
 
 def _import_from_path(path, package_name):
     module_name = filesystem.get_name(path)
-    fullname = '{}.{}'.format(package_name, module_name)
+    fullname = f'{package_name}.{module_name}'
 
     return get_module_by_name(fullname)
 
@@ -80,8 +80,7 @@ def get_child_modules(module, recursive=True):
         yield child_module
 
         if recursive:
-            for sub_child_module in _child_modules(child_module):
-                yield sub_child_module
+            yield from _child_modules(child_module)
 
 
 def get_all_classes(module, filter_func=None):
@@ -91,15 +90,12 @@ def get_all_classes(module, filter_func=None):
     :param Function filter_func: Custom filter function(cls_obj).
     :returns: :class:`List` of all found classes
     """
-    all_classes = []
-
-    # Current module's classes
-    all_classes.extend([cls for cls in classes_in_module(module, filter_func)])
+    all_classes = list(list(classes_in_module(module, filter_func)))
 
     # All child module classes
     for child_module in get_child_modules(module):
         child_module_classes = classes_in_module(child_module, filter_func)
-        all_classes.extend([cls for cls in child_module_classes])
+        all_classes.extend(list(child_module_classes))
 
     # TODO(jmvrbanac): Rework this so that we don't have to use a set
     return list(set(all_classes))

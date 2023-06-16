@@ -120,7 +120,7 @@ def test_get_inherited_classes():
 
     classes = []
     with PikeManager([temp_folder]) as mgr:
-        app = py.get_module_by_name('{}.app'.format(pkg_name))
+        app = py.get_module_by_name(f'{pkg_name}.app')
         classes = mgr.get_all_inherited_classes(app.SampleObj)
 
     assert len(classes) == 1
@@ -135,7 +135,7 @@ def test_get_inherited_classes_with_fixtures(pike_tmp_package):
     pike_tmp_package.rename(pike_tmp_package.dirpath() / pkg_name)
     classes = []
     with PikeManager([pike_tmp_package.dirname]) as mgr:
-        app = py.get_module_by_name('{}.app'.format(pkg_name))
+        app = py.get_module_by_name(f'{pkg_name}.app')
         classes = mgr.get_all_inherited_classes(app.SampleObj)
 
     assert len(classes) == 1

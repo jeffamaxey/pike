@@ -42,15 +42,11 @@ def recursive_find_packages(path):
     """Recursively finds all packages located on a path"""
     for pkg in find_packages(path):
         yield pkg
-        for sub_pkg in recursive_find_packages(pkg):
-            yield sub_pkg
+        yield from recursive_find_packages(pkg)
 
 
 def recursive_find_modules(path):
     """Recursively finds all modules located on a path"""
-    for module_path in find_modules(path):
-        yield module_path
-
+    yield from find_modules(path)
     for pkg_path in recursive_find_packages(path):
-        for module_path in find_modules(pkg_path):
-            yield module_path
+        yield from find_modules(pkg_path)
