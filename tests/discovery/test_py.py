@@ -11,7 +11,7 @@ class BaseTestCase(object):
     def setup_method(self, method):
         self.temp_folder = utils.make_tmpdir()
         self.manager = PikeManager([self.temp_folder])
-        self.pkg_name = 'pike_{}'.format(method.__name__)
+        self.pkg_name = f'pike_{method.__name__}'
         self.pkg_location = utils.create_working_package(
             self.temp_folder,
             self.pkg_name
@@ -79,7 +79,7 @@ class TestDiscoverClasses(BaseTestCase):
         utils.write_file(mod_location, self.test_file_content)
 
     def test_classes_in_module(self):
-        module = py.get_module_by_name('{}.app'.format(self.pkg_name))
+        module = py.get_module_by_name(f'{self.pkg_name}.app')
         assert len(list(py.classes_in_module(module))) == 2
 
     def test_get_all_classes(self):
@@ -102,14 +102,14 @@ class TestDiscoverClasses(BaseTestCase):
         assert len(list(py.get_child_modules(module, False))) == 2
 
     def test_get_all_inherited_classes(self):
-        module = py.get_module_by_name('{}.app'.format(self.pkg_name))
+        module = py.get_module_by_name(f'{self.pkg_name}.app')
         test_base_class = getattr(module, 'SampleObj')
 
         classes = py.get_all_inherited_classes(module, test_base_class)
         assert len(classes) == 1
 
     def test_get_inherited_classes(self):
-        module = py.get_module_by_name('{}.app'.format(self.pkg_name))
+        module = py.get_module_by_name(f'{self.pkg_name}.app')
         test_base_class = getattr(module, 'SampleObj')
 
         classes = py.get_inherited_classes(module, test_base_class)

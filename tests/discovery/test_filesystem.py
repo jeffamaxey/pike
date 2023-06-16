@@ -20,14 +20,14 @@ class TestFilesystemDiscovery(object):
 
     def test_find_modules_in_empty_package(self):
         pkg_location = utils.create_working_package(self.temp_folder)
-        assert len(list(filesystem.find_modules(pkg_location))) == 0
+        assert not list(filesystem.find_modules(pkg_location))
 
     def test_find_packages(self):
         utils.create_working_package(self.temp_folder)
         assert len(list(filesystem.find_packages(self.temp_folder))) == 1
 
     def test_find_packages_in_empty_folder(self):
-        assert len(list(filesystem.find_packages(self.temp_folder))) == 0
+        assert not list(filesystem.find_packages(self.temp_folder))
 
     def test_recursive_find_packages(self):
         pkg_location = utils.create_working_package(self.temp_folder)
